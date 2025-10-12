@@ -1,0 +1,15 @@
+{
+  "name": "oct5",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "John Ifeanyi",
+  "license": "ISC",
+  "description": "ParaBank Automation",
+  "devDependencies": {
+    "cypress": "^10.4.0"
+  }
+}
