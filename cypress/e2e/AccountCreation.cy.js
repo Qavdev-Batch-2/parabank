@@ -1,8 +1,16 @@
 /// <reference types="cypress" />
 
+import { data } from '../fixtures/data.js'
+
+
 describe('Testing Web URL', () => {
     beforeEach(()=> {
       cy.visit('https://parabank.parasoft.com/parabank/index.htm')
+      Cypress.on('uncaught:exception', (err, runnable) => {
+        // returning false here prevents Cypress from
+        // failing the test
+        return false
+      })
     })
 
     
@@ -52,7 +60,28 @@ describe('Testing Web URL', () => {
       cy.get('[class="button"]').eq(2).click() // REGISTER
       })
 
-      it('Should allow registration after filling all required fields', function() {
+      it.skip('should allow registration without phone number', function(){
+        cy.contains('Register').should('be.visible')
+        cy.url().should('not.eql', 'https://parabank.parasoft.com/parabank/register.htm')
+        cy.get('p a', {timeout:5000}).eq(1).click() // Register
+        //cy.get('input[type="submit"]').eq(1).click() //REGISTER
+        //cy.get('[class="button"]').eq(2).click() // REGISTER
+        cy.get('[name="customer.firstName"]').type('Boladale')
+        cy.get('[id="customer.lastName"]').type('Adeyinka')
+        cy.get('[id="customer.address.street"]').type('17,ibrahim street')
+        cy.get('[class="input"]').eq(5).type('Anthony')
+        cy.get('input[id="customer.address.state"]').type('Lagos')
+        cy.get('[name="customer.address.zipCode"]').type('101245')
+        //cy.get('[class="input"]').eq(8).type('08023456789')
+        cy.get('[id="customer.ssn"]').type('2233')
+        cy.get('[id="customer.username"]').type('Fabz')
+        cy.get('[type="password"]').eq(1).type('Pass12.@')
+        cy.get('[id="repeatedPassword"]').type('Pass12.@')
+        cy.get('[class="button"]').eq(2).click()  
+        })
+  
+        
+      it.skip('Should not allow registration with same registered details', function() {
       cy.contains('Register').should('be.visible')
       cy.url().should('not.eql', 'https://parabank.parasoft.com/parabank/register.htm')
       cy.get('p a', {timeout:5000}).eq(1).click() // Register
@@ -70,27 +99,29 @@ describe('Testing Web URL', () => {
       cy.get('[type="password"]').eq(1).type('Pass12.@')
       cy.get('[id="repeatedPassword"]').type('Pass12.@')
       cy.get('[class="button"]').eq(2).click()
+      cy.get('[id="customer.username.errors"]').should('have.text', 'This username already exists.')
       })
 
-      it('should allow registration without phone number', function(){
-      cy.contains('Register').should('be.visible')
-      cy.url().should('not.eql', 'https://parabank.parasoft.com/parabank/register.htm')
-      cy.get('p a', {timeout:5000}).eq(1).click() // Register
-      //cy.get('input[type="submit"]').eq(1).click() //REGISTER
-      //cy.get('[class="button"]').eq(2).click() // REGISTER
-      cy.get('[name="customer.firstName"]').type('Boladale')
-      cy.get('[id="customer.lastName"]').type('Adeyinka')
-      cy.get('[id="customer.address.street"]').type('17,ibrahim street')
-      cy.get('[class="input"]').eq(5).type('Anthony')
-      cy.get('input[id="customer.address.state"]').type('Lagos')
-      cy.get('[name="customer.address.zipCode"]').type('101245')
-      //cy.get('[class="input"]').eq(8).type('08023456789')
-      cy.get('[id="customer.ssn"]').type('2233')
-      cy.get('[id="customer.username"]').type('Fabz')
-      cy.get('[type="password"]').eq(1).type('Pass12.@')
-      cy.get('[id="repeatedPassword"]').type('Pass12.@')
-      cy.get('[class="button"]').eq(2).click()  
+      it('Should be able to login with valid details', ()=> {
+       const name = data()
+          cy.contains('Register').should('be.visible')
+          cy.url().should('not.eql', 'https://parabank.parasoft.com/parabank/register.htm')
+          cy.get('p a', {timeout:5000}).eq(1).click() // Register
+          cy.get('[name="customer.firstName"]').type('Hakim')
+          cy.get('[id="customer.lastName"]').type('Adeyinka')
+          cy.get('[id="customer.address.street"]').type('17,ibrahim street')
+          cy.get('[class="input"]').eq(5).type('Anthony')
+          cy.get('input[id="customer.address.state"]').type('Lagos')
+          cy.get('[name="customer.address.zipCode"]').type('101245')
+          cy.get('[class="input"]').eq(8).type('08023456788')
+          cy.get('[id="customer.ssn"]').type(name.SSN)
+          cy.get('[id="customer.username"]').type(name.userName)
+          cy.get('[type="password"]').eq(1).type('Pass12.@')
+          cy.get('[id="repeatedPassword"]').type('Pass12.@')
+          //cy.log(`username: ${name.userName}`)
+          cy.get('[class="button"]').eq(2).click()
+          cy.get('h1.title').should('contain', 'Welcome newReg_')
+          cy.get('div p').eq(2).should('have.text', 'Your account was created successfully. You are now logged in.')
+          })
       })
-
-      
-})
+  

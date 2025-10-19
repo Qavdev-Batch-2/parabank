@@ -11,7 +11,7 @@ it('user should be able to login with valid credentials', function() {
     cy.get('[class="button"]').eq(1).click()
 })
 
-it('should not be able to login with invalid credentials', function()  {
-    
-})
+    // it('should not be able to login with invalid credentials', function()  {
+        
+    // })
 }) 
