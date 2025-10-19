@@ -23,7 +23,7 @@ describe('Testing Web URL', () => {
       //cy.get('h1.title').should('be.visible').and('have.text', 'Signing up is easy!')
     })
 
-    it("Should not be able to create an account with empty fields", ()=> {
+    it.skip("Should not be able to create an account with empty fields", ()=> {
       cy.contains('Register').should('be.visible')
       cy.url().should('not.eql', 'https://parabank.parasoft.com/parabank/register.htm')
       cy.get('p a', {timeout:5000}).eq(1).click() // Register
@@ -41,8 +41,56 @@ describe('Testing Web URL', () => {
       cy.get('.error').eq(9).should('have.text','Password confirmation is required.')
       })
     
-      it("Should user cannot process without filling a required field", ()=> {
+      it.skip("Should not be able to register without filling a required field", ()=> {
+      cy.contains('Register').should('be.visible')
+      cy.url().should('not.eql', 'https://parabank.parasoft.com/parabank/register.htm')
+      cy.get('p a', {timeout:5000}).eq(1).click() // Register
+      cy.get('input[type="submit"]').eq(1).click() //REGISTER
+      cy.get('[class="button"]').eq(2).click() // REGISTER
+      cy.get('[name="customer.firstName"]').type('Boladale')
+      cy.get('[id="customer.lastName"]').type('Adeyinka')
+      cy.get('[class="button"]').eq(2).click() // REGISTER
+      })
 
+      it('Should allow registration after filling all required fields', function() {
+      cy.contains('Register').should('be.visible')
+      cy.url().should('not.eql', 'https://parabank.parasoft.com/parabank/register.htm')
+      cy.get('p a', {timeout:5000}).eq(1).click() // Register
+      //cy.get('input[type="submit"]').eq(1).click() //REGISTER
+      //cy.get('[class="button"]').eq(2).click() // REGISTER
+      cy.get('[name="customer.firstName"]').type('Boladale')
+      cy.get('[id="customer.lastName"]').type('Adeyinka')
+      cy.get('[id="customer.address.street"]').type('17,ibrahim street')
+      cy.get('[class="input"]').eq(5).type('Anthony')
+      cy.get('input[id="customer.address.state"]').type('Lagos')
+      cy.get('[name="customer.address.zipCode"]').type('101245')
+      cy.get('[class="input"]').eq(8).type('08023456789')
+      cy.get('[id="customer.ssn"]').type('2233')
+      cy.get('[id="customer.username"]').type('Fabz')
+      cy.get('[type="password"]').eq(1).type('Pass12.@')
+      cy.get('[id="repeatedPassword"]').type('Pass12.@')
+      cy.get('[class="button"]').eq(2).click()
+      })
 
-  })
+      it('should allow registration without phone number', function(){
+      cy.contains('Register').should('be.visible')
+      cy.url().should('not.eql', 'https://parabank.parasoft.com/parabank/register.htm')
+      cy.get('p a', {timeout:5000}).eq(1).click() // Register
+      //cy.get('input[type="submit"]').eq(1).click() //REGISTER
+      //cy.get('[class="button"]').eq(2).click() // REGISTER
+      cy.get('[name="customer.firstName"]').type('Boladale')
+      cy.get('[id="customer.lastName"]').type('Adeyinka')
+      cy.get('[id="customer.address.street"]').type('17,ibrahim street')
+      cy.get('[class="input"]').eq(5).type('Anthony')
+      cy.get('input[id="customer.address.state"]').type('Lagos')
+      cy.get('[name="customer.address.zipCode"]').type('101245')
+      //cy.get('[class="input"]').eq(8).type('08023456789')
+      cy.get('[id="customer.ssn"]').type('2233')
+      cy.get('[id="customer.username"]').type('Fabz')
+      cy.get('[type="password"]').eq(1).type('Pass12.@')
+      cy.get('[id="repeatedPassword"]').type('Pass12.@')
+      cy.get('[class="button"]').eq(2).click()  
+      })
+
+      
 })

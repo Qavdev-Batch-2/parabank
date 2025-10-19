@@ -1,15 +1,24 @@
 {
   "name": "oct5",
   "version": "1.0.0",
+  "description": "ParaBank Automation",
+  "keywords": [],
+  "homepage": "https://github.com/Qavdev-Batch-2/parabank#readme",
+  "bugs": {
+    "url": "https://github.com/Qavdev-Batch-2/parabank/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Qavdev-Batch-2/parabank.git"
+  },
+  "license": "ISC",
+  "author": "John Ifeanyi",
+  "type": "commonjs",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "John Ifeanyi",
-  "license": "ISC",
-  "description": "ParaBank Automation",
   "devDependencies": {
-    "cypress": "^10.4.0"
+    "cypress": "^14.5.4"
   }
 }
