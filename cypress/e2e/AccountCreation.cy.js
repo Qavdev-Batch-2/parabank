@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { data } from '../fixtures/data.js'
+import {newUser} from '../fixtures/data.js' // location/ direction
 
 
 describe('Testing Web URL', () => {
@@ -103,25 +103,30 @@ describe('Testing Web URL', () => {
       })
 
       it('Should be able to login with valid details', ()=> {
-       const name = data()
+       const value = newUser()
+       
           cy.contains('Register').should('be.visible')
           cy.url().should('not.eql', 'https://parabank.parasoft.com/parabank/register.htm')
           cy.get('p a', {timeout:5000}).eq(1).click() // Register
-          cy.get('[name="customer.firstName"]').type('Hakim')
+          cy.get('[name="customer.firstName"]').type(value.firstName)
           cy.get('[id="customer.lastName"]').type('Adeyinka')
           cy.get('[id="customer.address.street"]').type('17,ibrahim street')
           cy.get('[class="input"]').eq(5).type('Anthony')
           cy.get('input[id="customer.address.state"]').type('Lagos')
           cy.get('[name="customer.address.zipCode"]').type('101245')
           cy.get('[class="input"]').eq(8).type('08023456788')
-          cy.get('[id="customer.ssn"]').type(name.SSN)
-          cy.get('[id="customer.username"]').type(name.userName)
+          cy.get('[id="customer.ssn"]').type(value.SSN)
+          cy.get('[id="customer.username"]').type(value.userName)
           cy.get('[type="password"]').eq(1).type('Pass12.@')
           cy.get('[id="repeatedPassword"]').type('Pass12.@')
           //cy.log(`username: ${name.userName}`)
           cy.get('[class="button"]').eq(2).click()
           cy.get('h1.title').should('contain', 'Welcome newReg_')
           cy.get('div p').eq(2).should('have.text', 'Your account was created successfully. You are now logged in.')
+
           })
+          
+          
       })
   
+      
