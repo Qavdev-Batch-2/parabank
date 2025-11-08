@@ -4,7 +4,7 @@ import {newUser} from '../fixtures/data.js'
 
 describe('Testing login ', function() {
     before(function() {
-        cy.visit('https://parabank.parasoft.com/parabank/index.htm')
+        cy.visit(Cypress.env('paraURL'))
 })
 
     it('should not be able to login with invalid credentials', function() {
@@ -15,11 +15,10 @@ describe('Testing login ', function() {
         cy.get('p.error').should('have.text', 'The username and password could not be verified.')
     })
 
-    it('should login with a valid credentials', function()  {
+    it.only('should login with a valid credentials', function()  {
         cy.fixture('users').then((users) => {
         cy.login(users.admin.username, users.admin.password)
         })
+        cy.visit(`${Cypress.env('originalURL')}/lookup.htm`)
     })
-
-   // it.only('should open new account', function()  {
 }) 
